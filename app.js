@@ -18,6 +18,32 @@ function Product(name,src){
 }
 Product.all=[];
 
+function updateStorage() {
+  console.log('updateStorage()');
+  let stringArr=JSON.stringify(Product.all);
+  localStorage.setItem('product',stringArr);
+  // console.log(Product.all);
+
+}
+
+function getVotes() {
+  console.log('getVotes()');
+  let data=localStorage.getItem('product');
+  // console.log(data);
+
+  let parsedArr=JSON.parse(data);
+  console.log(parsedArr);
+  if (parsedArr !==null) {
+    Product.all=parsedArr;
+    // for (let i = 0; i < parsedArr.length; i++) {
+    //   // console.log(parsedArr[i]);
+    //   new Product(parsedArr[i].name,parsedArr[i].src);
+    // }
+    console.log(Product.all);
+
+  }
+}
+
 new Product('bag','assets/bag.jpg');
 new Product('banana','assets/banana.jpg');
 new Product('bathroom','assets/bathroom.jpg');
@@ -38,7 +64,6 @@ new Product('unicorn','assets/unicorn.jpg');
 new Product('water-can','assets/water-can.jpg');
 new Product('wine-glass','assets/wine-glass.jpg');
 
-console.log(Product.all);
 // from class repo
 function getRandomIndex() {
   return Math.floor(Math.random() * Product.all.length);
@@ -49,11 +74,12 @@ let midImageIndex;
 let rightImageIndex;
 let repeatArr=[];
 
+
+
 function render(){
   leftImageIndex = getRandomIndex();
   midImageIndex = getRandomIndex();
   rightImageIndex = getRandomIndex();
-  
 
   while(leftImageIndex===midImageIndex || leftImageIndex===rightImageIndex ||midImageIndex===rightImageIndex || repeatArr.includes(leftImageIndex)|| repeatArr.includes(midImageIndex)|| repeatArr.includes(rightImageIndex)){
     if(leftImageIndex===midImageIndex || leftImageIndex===rightImageIndex){
@@ -78,8 +104,9 @@ function render(){
   Product.all[leftImageIndex].shown++;
   Product.all[midImageIndex].shown++;
   Product.all[rightImageIndex].shown++;
+  updateStorage();
 }
-render();
+// render();
 let allowedAttempts = 25;
 let attemptsCounter = 0;
 imagesDiv.addEventListener('click',handleDivClick);
@@ -117,6 +144,7 @@ function showResult(){
     list.appendChild(listItem);
     listItem.textContent=`${Product.all[i].name} had votes ${Product.all[i].votes}, and was seen ${Product.all[i].shown} times.`;
   }
+  // getVotes();
   showChart();
   showPieChart();
   button.removeEventListener('click',showResult);
@@ -222,4 +250,12 @@ function showPieChart(){
     config
   );
 }
+
+
+getVotes();
+render();
+
+
+
+
 

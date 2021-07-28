@@ -34,11 +34,13 @@ function getVotes() {
   let parsedArr=JSON.parse(data);
   console.log(parsedArr);
   if (parsedArr !==null) {
-    Product.all=parsedArr;
-    // for (let i = 0; i < parsedArr.length; i++) {
-    //   // console.log(parsedArr[i]);
-    //   new Product(parsedArr[i].name,parsedArr[i].src);
-    // }
+    Product.all=[];
+    for (let i = 0; i < parsedArr.length; i++) {
+      // console.log(parsedArr[i]);
+      let newProduct =new Product(parsedArr[i].name,parsedArr[i].src);
+      newProduct.votes= parsedArr[i].shown;
+      newProduct.shown= parsedArr[i].shown;
+    }
     console.log(Product.all);
 
   }
